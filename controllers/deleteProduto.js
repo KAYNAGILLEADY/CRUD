@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 //models
 import Estoque from "../Database/models/Estoque.js"
 
@@ -11,6 +13,10 @@ export default async function (req, res) {
             message: "Produto não encontrado"
         })
 
+        fs.unlink('./' + produto.pathImage, function (err) {
+            if (err) throw err;
+            console.log('Arquivo deletado!');
+        })
         await Estoque.findByIdAndDelete(produto._id)
 
         return res.status(200).json({

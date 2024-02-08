@@ -7,6 +7,7 @@ const inputsModal = {
     quantidade: document.getElementById("quantidade-modal"),
     preco: document.getElementById("preco-modal"),
     delete: document.getElementById("delete-modal"),
+    file: document.getElementById("file-modal"),
     submit: document.getElementById("edit-modal")
 }
 const form = {
@@ -14,6 +15,7 @@ const form = {
     descricao: document.getElementById('descricao'),
     quantidade: document.getElementById('quantidade'),
     preco: document.getElementById('preco'),
+    file: document.getElementById('file'),
     submit: document.getElementById('add-produto')
 }
 let idProdutoInModal = ''
@@ -24,11 +26,14 @@ const showModal = (id) => {
     let produto = Estoque.prototype.produtos.find(({_id}) => _id === id)
 
     const modal = new bootstrap.Modal(document.querySelector("#modal"))
+    const path = produto.pathImage.replace("public", "")
     
     inputsModal.nome_produto.value = produto.nome_produto
     inputsModal.descricao.value = produto.descricao
     inputsModal.quantidade.value = produto.quantidade
     inputsModal.preco.value = produto.preco
+    document.getElementById("img-produto-modal")
+        .setAttribute("src", path)
     
     modal.show()
 }
@@ -98,19 +103,16 @@ class Estoque {
     }
 
     async add () {
-        const data = {
-            "nome_produto": form.nome_produto.value,
-            "descricao": form.descricao.value,
-            "quantidade": form.quantidade.value,
-            "preco": form.preco.value
-        }
+        const data = new FormData()
+        data.append('nome_produto', form.nome_produto.value)
+        data.append('descricao', form.descricao.value)
+        data.append('quantidade', form.quantidade.value)
+        data.append('preco', form.preco.value)
+        data.append('file', form.file.files[0])
 
         const res = await fetch("/services/create", {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+            body: data
         })
 
         this.get()
@@ -129,19 +131,16 @@ class Estoque {
     async edit (id) {
         let produto = Estoque.prototype.produtos.find(({_id}) => _id === id)
 
-        const data = {
-            "nome_produto": inputsModal.nome_produto.value,
-            "descricao": inputsModal.descricao.value,
-            "quantidade": inputsModal.quantidade.value,
-            "preco": inputsModal.preco.value
-        }
+        const data = new FormData()
+        data.append('nome_produto', inputsModal.nome_produto.value)
+        data.append('descricao', inputsModal.descricao.value)
+        data.append('quantidade', inputsModal.quantidade.value)
+        data.append('preco', inputsModal.preco.value)
+        data.append('file', inputsModal.file.files[0])
 
-        const res = await fetch("/services/edit/"+produto._id, {
+        const res = await fetch("/services/edit/" + produto._id, {
             method: 'PUT',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+            body: data
         })
 
         this.get()

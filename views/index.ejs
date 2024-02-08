@@ -30,12 +30,16 @@
                     <input type="text" name="descricao" class="form-control" id="descricao">
                 </div>
                 <div class="mb-3">
-                    <label class="form-check-label" for="quantidade">Quantidade</label>
+                    <label class="form-label" for="quantidade">Quantidade</label>
                     <input type="number" name="quantidade" class="form-control" id="quantidade">
                 </div>
                 <div class="mb-3">
-                    <label class="form-check-label" for="preco">Preço</label>
+                    <label class="form-label" for="preco">Preço</label>
                     <input type="number" name="preco" class="form-control" id="preco">
+                </div>
+                <div class="mb-3">
+                    <label for="file" class="form-label">Imagem do produto</label>
+                    <input class="form-control" type="file" id="file">
                 </div>
                 <button id="add-produto" type="submit" class="btn btn-primary">Adicionar Produto</button>
             </form>
@@ -52,6 +56,13 @@
                 </div>
                 <div class="modal-body">
                     <form id="modal-form">
+                        <div class="mb-3">
+                            <img id="img-produto-modal" src="" alt="Imagem do Produto">
+                            <div class="mb-3">
+                                <label for="file-modal" class="form-label">Escolha outra imagem para o produto</label>
+                                <input class="form-control" type="file" id="file-modal" multiple>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-check-label" for="nome-produto-modal">Nome do produto</label>
                             <input type="text" name="nome-produto-modal" class="form-control" id="nome-produto-modal">
